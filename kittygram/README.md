@@ -54,3 +54,5 @@ Workflow находится в [`.github/workflows/main.yml`](../.github/workflo
 - `kittygram_gateway`
 
 После публикации workflow может выполнить деплой по SSH. Для этого в GitHub Secrets нужны `DOCKER_USERNAME`, `DOCKER_PASSWORD`, `HOST`, `USER`, `SSH_KEY`, `SSH_PASSPHRASE`. На сервере репозиторий должен находиться в `~/kittygram`.
+
+CI check
