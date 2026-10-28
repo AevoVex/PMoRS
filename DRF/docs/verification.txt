@@ -1,0 +1,191 @@
+
+>>> yatube: manage.py check
+System check identified no issues (0 silenced).
+
+>>> yatube: manage.py makemigrations --check --dry-run
+No changes detected
+
+>>> yatube: manage.py test posts --verbosity 2
+Found 13 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: messages, rest_framework, staticfiles
+  Apply all migrations: admin, auth, authtoken, contenttypes, posts, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying authtoken.0001_initial... OK
+  Applying authtoken.0002_auto_20160226_1747... OK
+  Applying authtoken.0003_tokenproxy... OK
+  Applying authtoken.0004_alter_tokenproxy_options... OK
+  Applying posts.0001_initial... OK
+  Applying sessions.0001_initial... OK
+System check identified no issues (0 silenced).
+
+>>> kittygram: manage.py check
+System check identified no issues (0 silenced).
+
+>>> kittygram: manage.py makemigrations --check --dry-run
+No changes detected
+
+>>> kittygram: manage.py test cats --verbosity 2
+Found 20 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: djoser, messages, rest_framework, staticfiles
+  Apply all migrations: admin, auth, cats, contenttypes, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying cats.0001_initial... OK
+  Applying sessions.0001_initial... OK
+System check identified no issues (0 silenced).
+
+>>> kittygram: manage.py check --settings=config.lesson_settings
+System check identified no issues (0 silenced).
+
+>>> kittygram: manage.py makemigrations --check --dry-run --settings=config.lesson_settings
+No changes detected
+
+>>> kittygram: manage.py test lessons --settings=config.lesson_settings --verbosity 2
+Found 10 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: djoser, messages, rest_framework, staticfiles
+  Apply all migrations: admin, auth, authtoken, cats, contenttypes, lessons, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying authtoken.0001_initial... OK
+  Applying authtoken.0002_auto_20160226_1747... OK
+  Applying authtoken.0003_tokenproxy... OK
+  Applying authtoken.0004_alter_tokenproxy_options... OK
+  Applying cats.0001_initial... OK
+  Applying lessons.0001_initial... OK
+  Applying sessions.0001_initial... OK
+System check identified no issues (0 silenced).
+No broken requirements found.
+
+All checks passed.
+
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+
+test_anonymous_and_invalid_token_denied (posts.tests.PostAPITests.test_anonymous_and_invalid_token_denied) ... ok
+test_apiview_lesson (posts.tests.PostAPITests.test_apiview_lesson) ... ok
+test_bad_input_and_methods (posts.tests.PostAPITests.test_bad_input_and_methods) ... ok
+test_create_assigns_author_and_preserves_whitespace (posts.tests.PostAPITests.test_create_assigns_author_and_preserves_whitespace) ... ok
+test_groups_are_read_only (posts.tests.PostAPITests.test_groups_are_read_only) ... ok
+test_image_upload (posts.tests.PostAPITests.test_image_upload) ... ok
+test_initial_serializer_excludes_id (posts.tests.PostAPITests.test_initial_serializer_excludes_id) ... ok
+test_list_detail_and_character_count (posts.tests.PostAPITests.test_list_detail_and_character_count) ... ok
+test_optional_group_unknown_group_and_clearing (posts.tests.PostAPITests.test_optional_group_unknown_group_and_clearing) ... ok
+test_other_user_can_read_but_cannot_mutate (posts.tests.PostAPITests.test_other_user_can_read_but_cannot_mutate) ... ok
+test_patch_put_delete_by_author (posts.tests.PostAPITests.test_patch_put_delete_by_author) ... ok
+test_token_login_and_wrong_password (posts.tests.PostAPITests.test_token_login_and_wrong_password) ... ok
+test_viewset_lesson_crud_and_permissions (posts.tests.PostAPITests.test_viewset_lesson_crud_and_permissions) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 1.172s
+
+OK
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+
+test_achievement_crud_and_shared_dictionary_protection (cats.tests.CatAPITests.test_achievement_crud_and_shared_dictionary_protection) ... ok
+test_anonymous_bad_and_expired_tokens (cats.tests.CatAPITests.test_anonymous_bad_and_expired_tokens) ... ok
+test_create_owner_cannot_be_forged (cats.tests.CatAPITests.test_create_owner_cannot_be_forged) ... ok
+test_create_with_nested_achievements_reuses_names (cats.tests.CatAPITests.test_create_with_nested_achievements_reuses_names) ... ok
+test_database_unique_constraints (cats.tests.CatAPITests.test_database_unique_constraints) ... ok
+test_duplicate_name_per_owner_and_rename (cats.tests.CatAPITests.test_duplicate_name_per_owner_and_rename) ... ok
+test_invalid_birth_year_boundaries (cats.tests.CatAPITests.test_invalid_birth_year_boundaries) ... ok
+test_invalid_color_name_and_required_fields (cats.tests.CatAPITests.test_invalid_color_name_and_required_fields) ... ok
+test_invalid_login_and_refresh (cats.tests.CatAPITests.test_invalid_login_and_refresh) ... ok
+test_invalid_nested_data_does_not_create_cat_or_achievement (cats.tests.CatAPITests.test_invalid_nested_data_does_not_create_cat_or_achievement) ... ok
+test_light_viewset_only_create_retrieve (cats.tests.CatAPITests.test_light_viewset_only_create_retrieve) ... ok
+test_list_short_detail_full (cats.tests.CatAPITests.test_list_short_detail_full) ... ok
+test_nested_update_omit_preserve_replace_and_clear (cats.tests.CatAPITests.test_nested_update_omit_preserve_replace_and_clear) ... ok
+test_other_user_cannot_modify_or_delete (cats.tests.CatAPITests.test_other_user_cannot_modify_or_delete) ... ok
+test_patch_validates_against_existing_other_field (cats.tests.CatAPITests.test_patch_validates_against_existing_other_field) ... ok
+test_recent_white_cats_five_newest (cats.tests.CatAPITests.test_recent_white_cats_five_newest) ... ok
+test_registration_login_refresh_verify_and_me (cats.tests.CatAPITests.test_registration_login_refresh_verify_and_me) ... ok
+test_registration_rejects_weak_password_and_duplicate_username (cats.tests.CatAPITests.test_registration_rejects_weak_password_and_duplicate_username) ... ok
+test_update_owner_ignored_and_delete (cats.tests.CatAPITests.test_update_owner_ignored_and_delete) ... ok
+test_users_read_only_and_no_private_fields (cats.tests.CatAPITests.test_users_read_only_and_no_private_fields) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 1.788s
+
+OK
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+
+test_apiview_and_generic_list_create (lessons.tests.LessonTests.test_apiview_and_generic_list_create) ... ok
+test_base_viewset_read_only (lessons.tests.LessonTests.test_base_viewset_read_only) ... ok
+test_bulk_create_and_atomic_validation (lessons.tests.LessonTests.test_bulk_create_and_atomic_validation) ... ok
+test_function_detail_crud (lessons.tests.LessonTests.test_function_detail_crud) ... ok
+test_generic_detail_crud (lessons.tests.LessonTests.test_generic_detail_crud) ... ok
+test_hex_color_conversion_and_bad_input (lessons.tests.LessonTests.test_hex_color_conversion_and_bad_input) ... ok
+test_initial_function_create_list_and_errors (lessons.tests.LessonTests.test_initial_function_create_list_and_errors) ... ok
+test_owner_relations (lessons.tests.LessonTests.test_owner_relations) ... ok
+test_token_endpoint (lessons.tests.LessonTests.test_token_endpoint) ... ok
+test_unknown_birth_year (lessons.tests.LessonTests.test_unknown_birth_year) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.574s
+
+OK
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+

@@ -1,0 +1,408 @@
+No authorization data found. Please use the `postman login` command.
+Refer:https://learning.postman.com/docs/postman-cli/postman-cli-options/#postman-login
+
+Running your collection...
+postman
+
+CRUD_for_yatube
+
+Folder auth_tests
+Sub-folder get_token_for_regular_user // No Auth
+
+  POST http://127.0.0.1:53377/api/v1/api-token-auth/ [200 OK, 348 B, 299 ms]
+  Pass  Статус-код ответа должен быть 200
+  -
+  | 'Using "request" is deprecated. Use "pm.request" inste
+  | ad.'
+  -
+  Pass  Ответ должен содержать ключ `token`
+
+Sub-folder get_token_for_admin // No Auth
+
+  POST http://127.0.0.1:53377/api/v1/api-token-auth/ [200 OK, 348 B, 384 ms]
+  Pass  Статус-код ответа должен быть 200
+  -
+  | 'Using "request" is deprecated. Use "pm.request" inste
+  | ad.'
+  -
+  Pass  Ответ должен содержать ключ `token`
+
+Folder group_tests
+Sub-folder get_group_list // User
+
+  GET http://127.0.0.1:53377/api/v1/groups/ [200 OK, 392 B, 8 ms]
+  Pass  Статус-код ответа должен быть 200
+  Pass  Структура ответа должна соответствовать ожидаемой
+
+Sub-folder get_group_details // User
+
+  GET http://127.0.0.1:53377/api/v1/groups/1/ [200 OK, 390 B, 6 ms]
+  Pass  Статус-код ответа должен быть 200
+  Pass  Структура ответа должна соответствовать ожидаемой
+
+Folder post_tests
+Sub-folder create_post_without_group // User
+
+  POST http://127.0.0.1:53377/api/v1/posts/ [201 Created, 514 B, 18 ms]
+  Pass  Статус-код ответа должен быть 201
+  Pass  Структура ответа должна соответствовать ожидаемой
+  -
+  | 'Using "request" is deprecated. Use "pm.request" inste
+  | ad.'
+  -
+  Pass  Ответ должен содержать ожидаемые данные
+
+Sub-folder create_post_with_group // User
+
+  POST http://127.0.0.1:53377/api/v1/posts/ [201 Created, 464 B, 18 ms]
+  Pass  Статус-код ответа должен быть 201
+  Pass  Структура ответа должна соответствовать ожидаемой
+  -
+  | 'Using "request" is deprecated. Use "pm.request" inste
+  | ad.'
+  -
+  Pass  Ответ должен содержать ожидаемые данные
+
+Sub-folder get_post_list // User
+
+  GET http://127.0.0.1:53377/api/v1/posts/ [200 OK, 649 B, 7 ms]
+  Pass  Статус-код ответа должен быть 200
+  Pass  Структура ответа должна соответствовать ожидаемой
+
+Sub-folder get_post_details // User
+
+  GET http://127.0.0.1:53377/api/v1/posts/1/ [200 OK, 523 B, 6 ms]
+  Pass  Статус-код ответа должен быть 200
+  Pass  Структура ответа должна соответствовать ожидаемой
+
+Sub-folder update_post_with_patch_request // User
+
+  PATCH http://127.0.0.1:53377/api/v1/posts/1/ [200 OK, 490 B, 16 ms]
+  Pass  Статус-код ответа должен быть 200
+  Pass  Структура ответа должна соответствовать ожидаемой
+  -
+  | 'Using "request" is deprecated. Use "pm.request" inste
+  | ad.'
+  -
+  Pass  Ответ должен содержать ожидаемые данные
+
+Sub-folder update_post_with_put_request // User
+
+  PUT http://127.0.0.1:53377/api/v1/posts/1/ [200 OK, 511 B, 15 ms]
+  Pass  Статус-код ответа должен быть 200
+  Pass  Структура ответа должна соответствовать ожидаемой
+  -
+  | 'Using "request" is deprecated. Use "pm.request" inste
+  | ad.'
+  -
+  Pass  Ответ должен содержать ожидаемые данные
+
+Sub-folder delete_post // User
+
+  DELETE http://127.0.0.1:53377/api/v1/posts/1/ [204 No Content, 310 B, 16 ms]
+  Pass  Статус-код ответа должен быть 204
+
+Folder comment_tests
+Sub-folder create_comment // User
+
+  POST http://127.0.0.1:53377/api/v1/posts/2/comments/ [201 Created, 462 B, 16 ms]
+  Pass  Статус-код ответа должен быть 201
+  Pass  Структура ответа должна соответствовать ожидаемой
+  -
+  | 'Using "request" is deprecated. Use "pm.request" inste
+  | ad.'
+  -
+  Pass  Ответ должен содержать ожидаемые данные
+
+Sub-folder get_comments // User
+
+  GET http://127.0.0.1:53377/api/v1/posts/2/comments/ [200 OK, 459 B, 8 ms]
+  Pass  Статус-код ответа должен быть 200
+  Pass  Структура ответа должна соответствовать ожидаемой
+
+Sub-folder get_comment_details // User
+
+  GET http://127.0.0.1:53377/api/v1/posts/2/comments/1/ [200 OK, 471 B, 6 ms]
+  Pass  Статус-код ответа должен быть 200
+  Pass  Структура ответа должна соответствовать ожидаемой
+  Pass  Ответ должен содержать ожидаемые данные
+
+Sub-folder update_comment_with_patch_request // User
+
+  PATCH http://127.0.0.1:53377/api/v1/posts/2/comments/1/ [200 OK, 483 B, 20 ms]
+  Pass  Статус-код ответа должен быть 200
+  Pass  Структура ответа должна соответствовать ожидаемой
+  -
+  | 'Using "request" is deprecated. Use "pm.request" inste
+  | ad.'
+  -
+  Pass  Ответ должен содержать ожидаемые данные
+
+Sub-folder update_comment_with_put_request // User
+
+  PUT http://127.0.0.1:53377/api/v1/posts/2/comments/1/ [200 OK, 485 B, 17 ms]
+  Pass  Статус-код ответа должен быть 200
+  Pass  Структура ответа должна соответствовать ожидаемой
+  -
+  | 'Using "request" is deprecated. Use "pm.request" inste
+  | ad.'
+  -
+  Pass  Ответ должен содержать ожидаемые данные
+
+Sub-folder delete_comment // User
+
+  DELETE http://127.0.0.1:53377/api/v1/posts/2/comments/1/ [204 No Content, 310 B, 15 ms]
+  Pass  Статус-код ответа должен быть 204
+
+Sub-folder create_comment_for_permission_tests // User
+
+  POST http://127.0.0.1:53377/api/v1/posts/2/comments/ [201 Created, 516 B, 15 ms]
+  Pass  Статус-код ответа должен быть 201
+  Pass  Структура ответа должна соответствовать ожидаемой
+
+Folder negative_tests / create_update_delete_group
+Sub-folder create_group // Admin
+
+  POST http://127.0.0.1:53377/api/v1/groups/1/ [405 Method Not Allowed, 386 B, 6 ms]
+  Pass  Статус-код ответа должен быть 405
+
+Sub-folder update_group_with_patch_request // Admin
+
+  PATCH http://127.0.0.1:53377/api/v1/groups/1/ [405 Method Not Allowed, 387 B, 6 ms]
+  Pass  Статус-код ответа должен быть 405
+
+Sub-folder update_group_with_put_request // Admin
+
+  PUT http://127.0.0.1:53377/api/v1/groups/1/ [405 Method Not Allowed, 385 B, 4 ms]
+  Pass  Статус-код ответа должен быть 405
+
+Sub-folder delete_group // Admin
+
+  DELETE http://127.0.0.1:53377/api/v1/groups/1/ [405 Method Not Allowed, 388 B, 6 ms]
+  Pass  Статус-код ответа должен быть 405
+
+Folder negative_tests / update_delete_post_not_author_user
+Sub-folder update_post_not_author_with_patch_request // Admin
+
+  PATCH http://127.0.0.1:53377/api/v1/posts/2/ [403 Forbidden, 448 B, 6 ms]
+  Pass  Статус-код ответа должен быть 403
+
+Sub-folder update_post_not_author_with_put_request // Admin
+
+  PUT http://127.0.0.1:53377/api/v1/posts/2/ [403 Forbidden, 448 B, 6 ms]
+  Pass  Статус-код ответа должен быть 403
+
+Sub-folder delete_post_not_author // Admin
+
+  DELETE http://127.0.0.1:53377/api/v1/posts/2/ [403 Forbidden, 448 B, 6 ms]
+  Pass  Статус-код ответа должен быть 403
+
+Folder negative_tests / create_update_with_corrupted_data
+Sub-folder create_post_with_empty_text // User
+
+  POST http://127.0.0.1:53377/api/v1/posts/ [400 Bad Request, 397 B, 6 ms]
+  Pass  Статус-код ответа должен быть 400
+
+Sub-folder create_post_with_invalid_group // User
+
+  POST http://127.0.0.1:53377/api/v1/posts/ [400 Bad Request, 446 B, 6 ms]
+  Pass  Статус-код ответа должен быть 400
+
+Sub-folder patch_post_with_empty_text // User
+
+  PATCH http://127.0.0.1:53377/api/v1/posts/2/ [400 Bad Request, 411 B, 6 ms]
+  Pass  Статус-код ответа должен быть 400
+
+Sub-folder put_for_post_with_non_existing_group // User
+
+  PUT http://127.0.0.1:53377/api/v1/posts/2/ [400 Bad Request, 463 B, 7 ms]
+  Pass  Статус-код ответа должен быть 400
+
+Sub-folder patch_comment_with_empty_text // User
+
+  POST http://127.0.0.1:53377/api/v1/posts/2/comments/ [400 Bad Request, 397 B, 5 ms]
+  Pass  Статус-код ответа должен быть 400
+
+Sub-folder patch_comment_with_empty_text // User
+
+  PATCH http://127.0.0.1:53377/api/v1/posts/2/comments/2/ [400 Bad Request, 411 B, 6 ms]
+  Pass  Статус-код ответа должен быть 400
+
+Folder negative_tests / update_delete_comment_not_author
+Sub-folder update_comment_not_author_with_patch_request // Admin
+
+  PATCH http://127.0.0.1:53377/api/v1/posts/2/comments/2/ [403 Forbidden, 448 B, 6 ms]
+  Pass  Статус-код ответа должен быть 403
+
+Sub-folder update_comment_not_auth_with_put_request // Admin
+
+  PUT http://127.0.0.1:53377/api/v1/posts/2/comments/2/ [403 Forbidden, 448 B, 6 ms]
+  Pass  Статус-код ответа должен быть 403
+
+Sub-folder delete_comment_not_author // Admin
+
+  DELETE http://127.0.0.1:53377/api/v1/posts/2/comments/2/ [403 Forbidden, 448 B, 6 ms]
+  Pass  Статус-код ответа должен быть 403
+
+Folder negative_tests / unauthorized_user_tests / posts_crud_no_auth
+Sub-folder create_post_without_group // No Auth
+
+  POST http://127.0.0.1:53377/api/v1/posts/ [401 Unauthorized, 438 B, 4 ms]
+  Pass  Статус-код ответа должен быть 401
+
+Sub-folder get_post_list // No Auth
+
+  GET http://127.0.0.1:53377/api/v1/posts/ [401 Unauthorized, 438 B, 3 ms]
+  Pass  Статус-код ответа должен быть 401
+
+Sub-folder get_post_details // No Auth
+
+  GET http://127.0.0.1:53377/api/v1/posts/2/ [401 Unauthorized, 452 B, 4 ms]
+  Pass  Статус-код ответа должен быть 401
+
+Sub-folder update_post_with_patch_request // No Auth
+
+  PATCH http://127.0.0.1:53377/api/v1/posts/2/ [401 Unauthorized, 452 B, 4 ms]
+  Pass  Статус-код ответа должен быть 401
+
+Sub-folder update_post_with_put_request // No Auth
+
+  PUT http://127.0.0.1:53377/api/v1/posts/2/ [401 Unauthorized, 452 B, 3 ms]
+  Pass  Статус-код ответа должен быть 401
+
+Sub-folder delete_post // No Auth
+
+  DELETE http://127.0.0.1:53377/api/v1/posts/2/ [401 Unauthorized, 452 B, 3 ms]
+  Pass  Статус-код ответа должен быть 401
+
+Folder negative_tests / unauthorized_user_tests / comments_crud_no_auth
+Sub-folder create_comment // No Auth
+
+  POST http://127.0.0.1:53377/api/v1/posts/2/comments/ [401 Unauthorized, 438 B, 3 ms]
+  Pass  Статус-код ответа должен быть 401
+
+Sub-folder get_comments // No Auth
+
+  GET http://127.0.0.1:53377/api/v1/posts/2/comments/ [401 Unauthorized, 438 B, 3 ms]
+  Pass  Статус-код ответа должен быть 401
+
+Sub-folder get_comment_details // No Auth
+
+  GET http://127.0.0.1:53377/api/v1/posts/2/comments/2/ [401 Unauthorized, 452 B, 3 ms]
+  Pass  Статус-код ответа должен быть 401
+
+Sub-folder updete_comment_with_patch_request // No Auth
+
+  PATCH http://127.0.0.1:53377/api/v1/posts/2/comments/2/ [401 Unauthorized, 452 B, 3 ms]
+  Pass  Статус-код ответа должен быть 401
+
+Sub-folder update_commetn_with_put_request // No Auth
+
+  PUT http://127.0.0.1:53377/api/v1/posts/2/comments/2/ [401 Unauthorized, 452 B, 3 ms]
+  Pass  Статус-код ответа должен быть 401
+
+Sub-folder delete_comment // No Auth
+
+  DELETE http://127.0.0.1:53377/api/v1/posts/2/comments/2/ [401 Unauthorized, 452 B, 3 ms]
+  Pass  Статус-код ответа должен быть 401
+
+Folder negative_tests / unauthorized_user_tests / group_tests // No Auth
+Sub-folder get_group_list // No Auth
+
+  GET http://127.0.0.1:53377/api/v1/groups/ [401 Unauthorized, 432 B, 5 ms]
+  Pass  Статус-код ответа должен быть 401
+
+Sub-folder get_group_details // No Auth
+
+  GET http://127.0.0.1:53377/api/v1/groups/1/ [401 Unauthorized, 432 B, 3 ms]
+  Pass  Статус-код ответа должен быть 401
+
+Folder negative_tests / 404_tests
+Sub-folder get_group_404 // Admin
+
+  GET http://127.0.0.1:53377/api/v1/groups/99999/ [404 Not Found, 368 B, 5 ms]
+  Pass  Статус-код ответа должен быть 404
+
+Sub-folder get_post_404 // Admin
+
+  GET http://127.0.0.1:53377/api/v1/posts/99999/ [404 Not Found, 387 B, 7 ms]
+  Pass  Статус-код ответа должен быть 404
+
+Sub-folder patch_post_404 // Admin
+
+  PATCH http://127.0.0.1:53377/api/v1/posts/99999/ [404 Not Found, 387 B, 5 ms]
+  Pass  Статус-код ответа должен быть 404
+
+Sub-folder delete_post_404 // Admin
+
+  DELETE http://127.0.0.1:53377/api/v1/posts/99999/ [404 Not Found, 387 B, 6 ms]
+  Pass  Статус-код ответа должен быть 404
+
+Sub-folder get_comment_404 // Admin
+
+  GET http://127.0.0.1:53377/api/v1/posts/99999/comments/99999/ [404 Not Found, 387 B, 5 ms]
+  Pass  Статус-код ответа должен быть 404
+
+Sub-folder patch_comment_404 // Admin
+
+  PATCH http://127.0.0.1:53377/api/v1/posts/99999/comments/99999/ [404 Not Found, 387 B, 5 ms]
+  Pass  Статус-код ответа должен быть 404
+
+Sub-folder delete_comment_404 // Admin
+
+  DELETE http://127.0.0.1:53377/api/v1/posts/99999/comments/99999/ [404 Not Found, 387 B, 5 ms]
+  Pass  Статус-код ответа должен быть 404
+
+Sub-folder get_existing_comment_with_non_existing_post_id // Admin
+
+  GET http://127.0.0.1:53377/api/v1/posts/99999/comments/2/ [404 Not Found, 387 B, 5 ms]
+  Pass  Статус-код ответа должен быть 404
+
+Folder negative_tests / create_from_another_author
+Sub-folder create_post_from_another_author // Admin
+
+  POST http://127.0.0.1:53377/api/v1/posts/ [201 Created, 510 B, 14 ms]
+  Pass  Статус-код ответа должен быть 201
+  Pass  Структура ответа должна соответствовать ожидаемой
+  Pass  Ответ должен содержать ожидаемые данные
+
+Sub-folder create_comment_from_another_user // Admin
+
+  POST http://127.0.0.1:53377/api/v1/posts/3/comments/ [201 Created, 454 B, 15 ms]
+  Pass  Статус-код ответа должен быть 201
+  Pass  Структура ответа должна соответствовать ожидаемой
+  Pass  Ответ должен содержать ожидаемые данные
+
+Folder tear_down
+Sub-folder delete_post_with_group // User
+
+  DELETE http://127.0.0.1:53377/api/v1/posts/2/ [204 No Content, 310 B, 16 ms]
+  Pass  Статус-код ответа должен быть 204
+
+Sub-folder delete_negative_test_post // Admin
+
+  DELETE http://127.0.0.1:53377/api/v1/posts/3/ [204 No Content, 310 B, 14 ms]
+  Pass  Статус-код ответа должен быть 204
+
+----------------------------------------------------------------------
+|                         |            executed |             failed |
+--------------------------+---------------------+---------------------
+|              iterations |                   1 |                  0 |
+--------------------------+---------------------+---------------------
+|                requests |                  60 |                  0 |
+--------------------------+---------------------+---------------------
+|            test-scripts |                  60 |                  0 |
+--------------------------+---------------------+---------------------
+|      prerequest-scripts |                   0 |                  0 |
+--------------------------+---------------------+---------------------
+|              assertions |                  88 |                  0 |
+----------------------------------------------------------------------
+| total run duration: 6.1 s                                          |
+----------------------------------------------------------------------
+| total data received: 5.36 KB (approx)                              |
+----------------------------------------------------------------------
+| average response time: 18 ms [min: 3 ms, max: 384 ms, s.d.: 60 ms] |
+----------------------------------------------------------------------
+Postman credentials are required for publishing run details to Postman cloud.
+Please specify it by using the `postman login` command
+

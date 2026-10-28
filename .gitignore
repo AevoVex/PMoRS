@@ -1,0 +1,37 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+keys
+**/.local-secret
+
+# Python environments and generated files
+.venv/
+.venv*/
+venv/
+**/venv/
+**/__pycache__/
+*.py[cod]
+*.log
+
+# Runtime data and local databases
+*.sqlite3
+*.session
+*.session-journal
+**/media/
+**/staticfiles/
+
+# JavaScript dependencies and builds
+**/node_modules/
+**/build/
+**/coverage/
+
+# Local tooling and temporary files
+.vscode/
+.idea/
+.postman/
+tmp/
+
+# OS files
+.DS_Store
+Thumbs.db

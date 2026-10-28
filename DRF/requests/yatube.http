@@ -1,0 +1,49 @@
+@baseUrl = http://127.0.0.1:8000
+@token = PASTE_TOKEN_HERE
+@postId = 1
+
+### Get Token (copy token from response into the variable above)
+POST {{baseUrl}}/api/v1/api-token-auth/
+Content-Type: application/json
+
+{"username":"alice","password":"Demo-Learning-42!"}
+
+### List groups
+GET {{baseUrl}}/api/v1/groups/
+Authorization: Token {{token}}
+
+### Create a post (copy its id into postId)
+POST {{baseUrl}}/api/v1/posts/
+Authorization: Token {{token}}
+Content-Type: application/json
+
+{"text":"Hello, Yatube!","group":"cats"}
+
+### List posts
+GET {{baseUrl}}/api/v1/posts/
+Authorization: Token {{token}}
+
+### Get one post
+GET {{baseUrl}}/api/v1/posts/{{postId}}/
+Authorization: Token {{token}}
+
+### Partial update
+PATCH {{baseUrl}}/api/v1/posts/{{postId}}/
+Authorization: Token {{token}}
+Content-Type: application/json
+
+{"text":"Updated post"}
+
+### Replace fields and clear group
+PUT {{baseUrl}}/api/v1/posts/{{postId}}/
+Authorization: Token {{token}}
+Content-Type: application/json
+
+{"text":"Full update","group":null}
+
+### Delete your post
+DELETE {{baseUrl}}/api/v1/posts/{{postId}}/
+Authorization: Token {{token}}
+
+### Expected 401
+GET {{baseUrl}}/api/v1/posts/

@@ -1,0 +1,9 @@
+$kind: collection
+auth:
+  - id: f2248d8b-774b-4952-b213-d58783e0771e
+    type: apikey
+    name: apikey auth
+    credentials:
+      value: "{{auth_secret_12kv}}"
+      key: Authorization
+order: 5000

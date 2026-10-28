@@ -1,0 +1,12 @@
+venv/
+.venv/
+.git/
+__pycache__/
+*.py[cod]
+*.sqlite3
+.local-secret
+.env
+media/
+staticfiles/
+frontend/node_modules/
+frontend/build/

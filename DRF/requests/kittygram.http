@@ -1,0 +1,71 @@
+@baseUrl = http://127.0.0.1:8001
+@access = PASTE_ACCESS_HERE
+@refresh = PASTE_REFRESH_HERE
+@catId = 1
+
+### Optional registration (choose an unused username)
+POST {{baseUrl}}/auth/users/
+Content-Type: application/json
+
+{"username":"newlearner","password":"New-Learner-42!"}
+
+### Login as the seeded demo user
+POST {{baseUrl}}/auth/jwt/create/
+Content-Type: application/json
+
+{"username":"alice","password":"Demo-Learning-42!"}
+
+### Refresh (copy new access from response)
+POST {{baseUrl}}/auth/jwt/refresh/
+Content-Type: application/json
+
+{"refresh":"{{refresh}}"}
+
+### Current user
+GET {{baseUrl}}/auth/users/me/
+Authorization: Bearer {{access}}
+
+### Create a cat (copy returned id into catId)
+POST {{baseUrl}}/cats/
+Authorization: Bearer {{access}}
+Content-Type: application/json
+
+{"name":"Snowball","color":"White","birth_year":2024,"achievements":[{"achievement_name":"Knocked over a tree"}]}
+
+### Short list
+GET {{baseUrl}}/cats/
+Authorization: Bearer {{access}}
+
+### Full detail
+GET {{baseUrl}}/cats/{{catId}}/
+Authorization: Bearer {{access}}
+
+### Five most recently added white cats
+GET {{baseUrl}}/cats/recent-white-cats/
+Authorization: Bearer {{access}}
+
+### Clear achievements
+PATCH {{baseUrl}}/cats/{{catId}}/
+Authorization: Bearer {{access}}
+Content-Type: application/json
+
+{"achievements":[]}
+
+### Expected 400: future year
+PATCH {{baseUrl}}/cats/{{catId}}/
+Authorization: Bearer {{access}}
+Content-Type: application/json
+
+{"birth_year":9999}
+
+### Expected 405: light viewset cannot list
+GET {{baseUrl}}/mycats/
+Authorization: Bearer {{access}}
+
+### List users
+GET {{baseUrl}}/users/
+Authorization: Bearer {{access}}
+
+### Delete your cat
+DELETE {{baseUrl}}/cats/{{catId}}/
+Authorization: Bearer {{access}}

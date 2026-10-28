@@ -1,0 +1,59 @@
+{
+  "repository": "https://github.com/yandex-praktikum/api_yatube",
+  "commit": "723eec8d3618349e42980d2d69b52605f00128f2",
+  "tree": "723eec8d3618349e42980d2d69b52605f00128f2",
+  "files": [
+    {
+      "path": "postman_collection/CRUD_for_yatube.postman_collection.json",
+      "sha": "f7776bf413e11426cd49688aa9ff99d493a8d992"
+    },
+    {
+      "path": "postman_collection/README.md",
+      "sha": "b5392f5a02550a4c8aae3c545c61993d9d25be1a"
+    },
+    {
+      "path": "postman_collection/set_up_data.sh",
+      "sha": "42534bd12258abb1bb557d001b99fb8c32298801"
+    },
+    {
+      "path": "tests/__init__.py",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "tests/conftest.py",
+      "sha": "3c54de720024988b57f4b427ba28d2f51aa6c5f0"
+    },
+    {
+      "path": "tests/fixtures/__init__.py",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "tests/fixtures/fixture_data.py",
+      "sha": "13e949864c80e30f71ef70f90f57156d06f9ff5a"
+    },
+    {
+      "path": "tests/fixtures/fixture_user.py",
+      "sha": "fca920936366047e7ee1f6bf432e421ddf088283"
+    },
+    {
+      "path": "tests/test_auth.py",
+      "sha": "b790bde007f40f9c4a249c783606634f9e03cabe"
+    },
+    {
+      "path": "tests/test_comment.py",
+      "sha": "f9ffd8ad6f0a7fd33c53d29eb533a4672d1e963c"
+    },
+    {
+      "path": "tests/test_group.py",
+      "sha": "096edbd75227d5d57192d571cf4e1059243c5464"
+    },
+    {
+      "path": "tests/test_post.py",
+      "sha": "03a39a42b9941ebfc78009672e0ba0e12dac2924"
+    },
+    {
+      "path": "tests/test_settings.py",
+      "sha": "6c00dd6aed6cd12d3860c13c87dae9726c79d38f"
+    }
+  ]
+}

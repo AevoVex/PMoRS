@@ -1,0 +1,3 @@
+yatube: real HTTP CRUD, authentication, forbidden writes and idempotent seed OK
+kittygram: real HTTP CRUD, authentication, forbidden writes and idempotent seed OK
+
