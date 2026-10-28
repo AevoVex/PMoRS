@@ -191,7 +191,7 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             set -eu
-            cd ~/kittygram
+            cd ~/kittygram/kittygram
             docker compose -f docker-compose.production.yml pull
             docker compose -f docker-compose.production.yml up -d --force-recreate
             docker compose -f docker-compose.production.yml exec -T backend python manage.py migrate --no-input
