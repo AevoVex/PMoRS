@@ -71,8 +71,8 @@ USE_I18N = True
 USE_TZ = True
 # React owns /static/. Django admin files use a separate prefix so Nginx can
 # serve both collections without one hiding the other.
-STATIC_URL = '/static_backend/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'backend_static'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

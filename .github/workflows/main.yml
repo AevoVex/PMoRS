@@ -1,0 +1,198 @@
+name: Kittygram CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'kittygram/**'
+      - '.github/workflows/kittygram-ci.yml'
+  pull_request:
+    paths:
+      - 'kittygram/**'
+      - '.github/workflows/kittygram-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backend-tests:
+    name: Backend tests and checks
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: kittygram_test
+          POSTGRES_USER: kittygram
+          POSTGRES_PASSWORD: kittygram_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U kittygram -d kittygram_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: kittygram/backend/requirements.txt
+
+      - name: Install backend dependencies
+        working-directory: kittygram/backend
+        run: python -m pip install -r requirements.txt
+
+      - name: Django system checks
+        working-directory: kittygram/backend
+        env:
+          DJANGO_DEBUG: '0'
+          DJANGO_SECRET_KEY: ci-only-secret-key
+          DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,testserver
+          POSTGRES_DB: kittygram_test
+          POSTGRES_USER: kittygram
+          POSTGRES_PASSWORD: kittygram_password
+          DB_HOST: 127.0.0.1
+          DB_PORT: '5432'
+        run: |
+          python manage.py check
+          python manage.py makemigrations --check --dry-run
+
+      - name: Run backend tests
+        working-directory: kittygram/backend
+        env:
+          DJANGO_DEBUG: '0'
+          DJANGO_SECRET_KEY: ci-only-secret-key
+          DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,testserver
+          POSTGRES_DB: kittygram_test
+          POSTGRES_USER: kittygram
+          POSTGRES_PASSWORD: kittygram_password
+          DB_HOST: 127.0.0.1
+          DB_PORT: '5432'
+        run: python manage.py test cats
+
+  frontend-build:
+    name: Frontend production build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: kittygram/frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: kittygram/frontend
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: kittygram/frontend
+        run: npm run build
+
+  docker-build:
+    name: Build Docker images
+    runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-build]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: kittygram/backend
+          file: kittygram/backend/Dockerfile
+          push: false
+          tags: kittygram-backend:ci
+
+      - name: Build frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: kittygram/frontend
+          file: kittygram/frontend/Dockerfile
+          push: false
+          tags: kittygram-frontend:ci
+
+      - name: Build gateway image
+        uses: docker/build-push-action@v6
+        with:
+          context: kittygram/gateway
+          file: kittygram/gateway/Dockerfile
+          push: false
+          tags: kittygram-gateway:ci
+
+  publish:
+    name: Publish production images
+    runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-build]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Publish backend
+        uses: docker/build-push-action@v6
+        with:
+          context: kittygram/backend
+          file: kittygram/backend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/kittygram_backend:latest
+
+      - name: Publish frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: kittygram/frontend
+          file: kittygram/frontend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/kittygram_frontend:latest
+
+      - name: Publish gateway
+        uses: docker/build-push-action@v6
+        with:
+          context: kittygram/gateway
+          file: kittygram/gateway/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/kittygram_gateway:latest
+
+  deploy:
+    name: Deploy Kittygram
+    runs-on: ubuntu-latest
+    needs: publish
+    environment: production
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: |
+            set -eu
+            cd ~/kittygram
+            docker compose -f docker-compose.production.yml pull
+            docker compose -f docker-compose.production.yml up -d --force-recreate
+            docker compose -f docker-compose.production.yml exec -T backend python manage.py migrate --no-input
+            docker compose -f docker-compose.production.yml exec -T backend python manage.py collectstatic --no-input
