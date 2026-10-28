@@ -21,6 +21,5 @@ RUN mkdir -p /app/media /app/staticfiles \
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod 755 /usr/local/bin/docker-entrypoint.sh
 
-USER app
 EXPOSE 8000
 ENTRYPOINT ["docker-entrypoint.sh"]
