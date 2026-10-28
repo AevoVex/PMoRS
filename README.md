@@ -14,7 +14,7 @@
 ## Kittygram в Docker
 
 1. Скопируйте `DRF/kittygram/.env.example` в `DRF/kittygram/.env`.
-2. Заполните production-секреты и `DJANGO_ALLOWED_HOSTS`.
+2. Заполните production-секреты и `DJANGO_ALLOWED_HOSTS` (IP без `http://` и без порта, например `localhost,127.0.0.1,89.125.39.139`).
 3. Запустите из `DRF/kittygram`:
 
 ```sh

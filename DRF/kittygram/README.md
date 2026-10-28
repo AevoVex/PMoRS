@@ -113,7 +113,7 @@ python manage.py makemigrations --check --dry-run
 
 ## Docker-деплой API
 
-В каталоге `kittygram` скопируйте `.env.example` в `.env`, задайте уникальные длинные значения `DJANGO_SECRET_KEY` и `POSTGRES_PASSWORD`, а в `DJANGO_ALLOWED_HOSTS` перечислите IP/домены VPS без схемы и портов. Compose собирает официальный frontend из `../frontend` вместе с Nginx. Затем выполните:
+В каталоге `kittygram` скопируйте `.env.example` в `.env`, задайте уникальные длинные значения `DJANGO_SECRET_KEY` и `POSTGRES_PASSWORD`, а в `DJANGO_ALLOWED_HOSTS` перечислите IP/домены VPS без схемы и портов. Например: `DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,89.125.39.139`. Compose собирает официальный frontend из `../frontend` вместе с Nginx. Затем выполните:
 
 ```sh
 docker compose up -d --build
@@ -122,3 +122,20 @@ docker compose logs -f backend
 ```
 
 Контейнер backend при запуске применяет миграции и собирает статику, Nginx публикует React SPA, API, админку и загруженные медиа на порту 80. База, медиа и статика хранятся в именованных Docker volumes. Не используйте учебные учетные данные и не коммитьте рабочий `.env`. HTTPS нужно отдельно настроить для домена (например, через внешний reverse proxy или сертификаты Let's Encrypt).
+
+Frontend-статика доступна по `/static/` из образа gateway (`/srv/frontend/static/`). Django admin-статика доступна по `/static_backend/` из volume backend (`/srv/static/`). Это разделение важно: если направить `/static/` в backend volume, React `main.*.js/css` будет отвечать 404. После исправления конфигурации пересоберите gateway и очистите старый HTML-кэш браузера:
+
+```sh
+docker compose build --no-cache backend nginx
+docker compose up -d --force-recreate nginx backend
+docker compose exec backend python manage.py collectstatic --no-input
+```
+
+Проверка должна показать совпадение хешей в HTML и файлов внутри gateway:
+
+```sh
+docker compose exec nginx sh -c 'grep -oE "/static/(js|css)/[^"]+" /srv/frontend/index.html; find /srv/frontend/static -maxdepth 2 -type f | sort | head'
+curl -I http://89.125.39.139/
+```
+
+В DevTools после деплоя включите Disable cache и сделайте hard reload. Старый `index.html` может продолжать ссылаться на уже несуществующие хеши даже после исправления Nginx.

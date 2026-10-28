@@ -1,4 +1,5 @@
 import base64
+import binascii
 import datetime as dt
 import webcolors
 from django.contrib.auth import get_user_model
@@ -6,7 +7,7 @@ from django.core.files.base import ContentFile
 from django.db import IntegrityError, transaction
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-from .models import Achievement, Cat, CHOICES
+from .models import Achievement, Cat
 
 
 class AchievementSerializer(serializers.ModelSerializer):
@@ -37,37 +38,45 @@ class Base64ImageField(serializers.ImageField):
                 data = ContentFile(
                     base64.b64decode(encoded), name=f'temp.{extension}'
                 )
-            except (ValueError, IndexError, TypeError):
+            except (ValueError, IndexError, TypeError, binascii.Error):
                 raise serializers.ValidationError('Некорректное изображение в формате base64.')
         return super().to_internal_value(data)
 
 
+class Hex2NameColor(serializers.Field):
+    """Accept frontend HEX values and store readable CSS color names."""
+    legacy_names = {'gray': 'gray', 'black': 'black', 'white': 'white',
+                    'ginger': 'orange', 'mixed': 'gray'}
+
+    def to_internal_value(self, data):
+        if not isinstance(data, str):
+            raise serializers.ValidationError('Color must be a string.')
+        value = data.strip()
+        if value.startswith('#'):
+            try:
+                return webcolors.hex_to_name(value.lower())
+            except ValueError:
+                raise serializers.ValidationError('Unsupported color.')
+        value = self.legacy_names.get(value.casefold(), value.lower())
+        try:
+            webcolors.name_to_hex(value)
+        except ValueError:
+            raise serializers.ValidationError('Unsupported color.')
+        return value
+
+    def to_representation(self, value):
+        try:
+            return webcolors.name_to_hex(value.lower()).upper()
+        except ValueError:
+            return value
+
+
 class CatSerializer(serializers.ModelSerializer):
     achievements = AchievementSerializer(many=True, required=False)
-    color = serializers.ChoiceField(choices=CHOICES)
+    color = Hex2NameColor()
     owner = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
     age = serializers.SerializerMethodField()
     image = Base64ImageField(required=False, allow_null=True)
-
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        try:
-            data['color'] = webcolors.name_to_hex(instance.color.lower())
-        except ValueError:
-            pass
-        return data
-
-    def to_internal_value(self, data):
-        data = data.copy()
-        color = data.get('color')
-        if isinstance(color, str) and color.startswith('#'):
-            if color != color.upper():
-                raise serializers.ValidationError({'color': 'Unsupported color.'})
-            try:
-                data['color'] = webcolors.hex_to_name(color).capitalize()
-            except ValueError:
-                raise serializers.ValidationError({'color': 'Unsupported color.'})
-        return super().to_internal_value(data)
 
     class Meta:
         model = Cat
@@ -90,7 +99,7 @@ class CatSerializer(serializers.ModelSerializer):
         # PATCH may supply only one of these fields.
         name = data.get('name', getattr(self.instance, 'name', None))
         color = data.get('color', getattr(self.instance, 'color', None))
-        if name == color:
+        if isinstance(name, str) and isinstance(color, str) and name.casefold() == color.casefold():
             raise serializers.ValidationError('Имя не может совпадать с цветом!')
         return data
 
@@ -124,6 +133,7 @@ class CatSerializer(serializers.ModelSerializer):
 
 
 class CatListSerializer(serializers.ModelSerializer):
+    color = Hex2NameColor()
     class Meta:
         model = Cat
         fields = ('id', 'name', 'color')

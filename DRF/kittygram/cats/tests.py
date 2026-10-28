@@ -115,9 +115,14 @@ class CatAPITests(APITestCase):
             self.assertEqual(self.client.post('/cats/', {**self.payload, 'name': f'Возраст{age}', 'birth_year': self.year - age}).status_code, 201)
 
     def test_invalid_color_name_and_required_fields(self):
-        for data in [{}, {**self.payload, 'color': '#ffffff'}, {**self.payload, 'name': 'x' * 17}, {**self.payload, 'name': 'Black'}]:
+        for data in [{}, {**self.payload, 'color': '#123456'}, {**self.payload, 'name': 'x' * 17}, {**self.payload, 'name': 'Black'}]:
             with self.subTest(data=data):
                 self.assertEqual(self.client.post('/cats/', data).status_code, 400)
+
+    def test_hex_color_is_accepted_and_returned_for_frontend(self):
+        response = self.client.post('/cats/', {**self.payload, 'color': '#ffffff'})
+        self.assertEqual(response.status_code, 201, response.data)
+        self.assertEqual(response.data['color'], '#FFFFFF')
 
     def test_patch_validates_against_existing_other_field(self):
         self.assertEqual(self.client.patch(self.url, {'name': 'White'}).status_code, 400)
